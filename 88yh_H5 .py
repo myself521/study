@@ -24,7 +24,7 @@ des = {
     "platformName": "Android",
     #"deviceName": "HUAWEI MATE 9",
     "deviceName":"HUAWEI P20 Pro",
-    "platformVersion": "8.0.0",
+    "platformVersion": "8.1.0",
     "browserName": "Chrome",
     'unicodeKeyboard':True, #使用unicodeKeyboard的编码方式来发送字符串
     'resetKeyboard':True#将键盘给隐藏起来
@@ -185,61 +185,30 @@ def new_check_error(flak):
 
 #元素坐标进行点击操作函数
 def element_action(start_ele,end_ele,game_name_start,game_name_end):
-    #element_list = dr.find_elements(By.CLASS_NAME, 'scroll-container')
-    element_list = []
-    ele1_list = dr.find_elements(By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div[1]')
-    ele2_list = dr.find_elements(By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div[2]')
-    if ele2_list != None:
-        for i in range(1,3):
-            ele_list = '//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div[' + str(i) + ']'
-            element_list.append(ele_list)
-            for element in element_list:
-                name = dr.find_elements_by_class_name("game_item")
-                sleep(0.5)
-                print(len(name))
-            for i in range(1, len(name)):
-                flak = 0
-                game_element = dr.find_element_by_xpath(start_ele + str(i) + end_ele)
-                name_element = dr.find_element_by_xpath(game_name_start + str(i) + game_name_end)
-                game_name = name_element.get_attribute('textContent')
-                game_element.click()
-                handel = dr.window_handles
-                dr.switch_to.window(handel[1])
-                new_flak = new_check_error(flak)
-                if new_flak == 1:
-                    dr.close()
-                    dr.switch_to_window(handel[0])
-                    game_element.click()
-                    handel = dr.window_handles
-                    dr.switch_to.window(handel[1])
-                    check_error(game_name)
-                dr.close()
-                dr.switch_to.window(handel[0])
-                sleep(1)
-    else:
-        for element in ele1_list:
-            name = dr.find_elements_by_class_name("game_item")
-            sleep(0.5)
-            print(len(name))
-        for i in range(1, len(name)):
-            flak = 0
-            game_element = dr.find_element_by_xpath(start_ele + str(i) + end_ele)
-            name_element = dr.find_element_by_xpath(game_name_start + str(i) + game_name_end)
-            game_name = name_element.get_attribute('textContent')
+    element_list = dr.find_elements(By.CLASS_NAME, 'scroll-container')
+    for element in element_list:
+        name = dr.find_elements_by_class_name("game_item")
+        sleep(0.5)
+        print(len(name))
+    for i in range(1, len(name) + 1):
+        flak = 0
+        game_element = dr.find_element_by_xpath(start_ele + str(i) + end_ele)
+        name_element = dr.find_element_by_xpath(game_name_start + str(i) + game_name_end)
+        game_name = name_element.get_attribute('textContent')
+        game_element.click()
+        handel = dr.window_handles
+        dr.switch_to.window(handel[1])
+        new_flak = new_check_error(flak)
+        if new_flak == 1:
+            dr.close()
+            dr.switch_to_window(handel[0])
             game_element.click()
             handel = dr.window_handles
             dr.switch_to.window(handel[1])
-            new_flak = new_check_error(flak)
-            if new_flak == 1:
-                dr.close()
-                dr.switch_to_window(handel[0])
-                game_element.click()
-                handel = dr.window_handles
-                dr.switch_to.window(handel[1])
-                check_error(game_name)
-            dr.close()
-            dr.switch_to.window(handel[0])
-            sleep(1)
+            check_error(game_name)
+        dr.close()
+        dr.switch_to.window(handel[0])
+        sleep(1)
     dr.find_element_by_class_name('active').click()
     sleep(0.5)
 
@@ -321,76 +290,76 @@ while True:
     dr.find_element_by_class_name('left').click()
     sleep(0.5)
     i =1
-    for i in range(1,2):
-        screen_scroll()
-        sleep(1)
-        u'真人'
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[1]').click()
+    screen_scroll()
+    sleep(1)
+    u'真人'
+    dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[1]').click()
 
-        WebAndroidDriverWait(dr,15,poll_frequency=0.5).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div/div[1]/div/div[1]')))
-        sleep(1.5)
-        element_action('//*[@id="app"]/div[1]/div/div[2]/div/div/div[', ']/div/div[1]',
-                   '//*[@id="app"]/div[1]/div/div[2]/div/div/div[', ']/div/div[2]/h3')
-        sleep(0.5)
-        screen_scroll()
-        sleep(1)
-        u'彩票'
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[3]').click()
-        WebAndroidDriverWait(dr,10,poll_frequency=0.3).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="html"]/div/div[2]/div[1]/div/div[1]')))
-        element_action('//*[@id="html"]/div/div[2]/div[',
-                       ']/div/div[1]','//*[@id="html"]/div/div[2]/div[',']/div/div[2]/h3')
-        sleep(0.5)
-        screen_scroll()
-        sleep(1)
-        u'棋牌'
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[4]').click()
-        WebAndroidDriverWait(dr,10,poll_frequency=1).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div[1]')))
-        element_action('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[1]','//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[2]/h3')
-        sleep(0.5)
-        screen_scroll()
-        sleep(1)
-        u'体育'
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[5]').click()
-        WebAndroidDriverWait(dr,10,poll_frequency=1).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="html"]/div/div/div[2]/div[1]/div/div[2]/button')))
-        element_list = dr.find_elements(By.CLASS_NAME, 'scroll-container')
-        for element in element_list:
-            name = dr.find_elements_by_class_name("game_item")
-            sleep(0.5)
-        for i in range(1, len(name) + 1):
-            flak = 0
-            game_element = dr.find_element_by_xpath('//*[@id="html"]/div/div/div[2]/div[' + str(i) + ']/div/div[1]')
-            name_element = dr.find_element_by_xpath('//*[@id="html"]/div/div/div[2]/div[' + str(i) + ']/div/div[2]/h3')
-            game_name = name_element.get_attribute('textContent')
-            game_element.click()
-            handel = dr.window_handles
-            dr.switch_to.window(handel[1])
-            new_check_error(flak)
-            if flak == 1:
-                dr.close()
-                dr.switch_to_window(handel[0])
-                game_element.click()
-                handel = dr.window_handles
-                dr.switch_to.window(handel[1])
-                check_error(game_name)
-            dr.close()
-            dr.switch_to.window(handel[0])
-            sleep(1)
-        dr.find_element_by_class_name('active').click()
-        sleep(0.5)
-        screen_scroll()
-        sleep(1)
-        u'捕鱼'
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[6]').click()
-        WebAndroidDriverWait(dr,10,poll_frequency=0.5).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div/div[1]')))
-        dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div/div[1]').click()
-        handel = dr.window_handles
-        dr.switch_to_window(handel[1])
-        check_error('AG捕鱼')
-        dr.close()
-        handel = dr.window_handles
-        dr.switch_to_window(handel[0])
-        dr.find_element_by_class_name('active').click()
-        sleep(0.5)
+    WebAndroidDriverWait(dr,15,poll_frequency=0.5).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div/div[1]/div/div[1]')))
+    sleep(1.5)
+    element_action('//*[@id="app"]/div[1]/div/div[2]/div/div/div[', ']/div/div[1]',
+               '//*[@id="app"]/div[1]/div/div[2]/div/div/div[', ']/div/div[2]/h3')
+    sleep(0.5)
+    screen_scroll()
+    sleep(1)
+    u'彩票'
+    dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[3]').click()
+    WebAndroidDriverWait(dr,200,poll_frequency=0.3).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="html"]/div/div[2]/div[1]/div/div[1]')))
+    element_action('//*[@id="html"]/div/div[2]/div[',
+                   ']/div/div[1]','//*[@id="html"]/div/div[2]/div[',']/div/div[2]/h3')
+    sleep(0.5)
+    screen_scroll()
+    sleep(1)
+    u'棋牌'
+    dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[4]').click()
+    WebAndroidDriverWait(dr,20,poll_frequency=1).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div[1]')))
+    element_action('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[1]','//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[2]/h3')
+    sleep(0.5)
+    screen_scroll()
+    sleep(1)
+    u'体育'
+    dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[5]').click()
+    WebAndroidDriverWait(dr,10,poll_frequency=1).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="html"]/div/div/div[2]/div[1]/div/div[2]/button')))
+    element_action('//*[@id="html"]/div/div/div[2]/div[',']/div/div[1]','//*[@id="html"]/div/div/div[2]/div[',']/div/div[2]/h3')
+    element_list = dr.find_elements(By.CLASS_NAME, 'scroll-container')
+    # for element in element_list:
+    #     name = dr.find_elements_by_class_name("game_item")
+    #     sleep(0.5)
+    # for i in range(1, len(name) + 1):
+    #     flak = 0
+    #     game_element = dr.find_element_by_xpath('//*[@id="html"]/div/div/div[2]/div[' + str(i) + ']/div/div[1]')
+    #     name_element = dr.find_element_by_xpath('//*[@id="html"]/div/div/div[2]/div[' + str(i) + ']/div/div[2]/h3')
+    #     game_name = name_element.get_attribute('textContent')
+    #     game_element.click()
+    #     handel = dr.window_handles
+    #     dr.switch_to.window(handel[1])
+    #     new_check_error(flak)
+    #     if flak == 1:
+    #         dr.close()
+    #         dr.switch_to_window(handel[0])
+    #         game_element.click()
+    #         handel = dr.window_handles
+    #         dr.switch_to.window(handel[1])
+    #         check_error(game_name)
+    #     dr.close()
+    #     dr.switch_to.window(handel[0])
+    #     sleep(1)
+    #     dr.find_element_by_class_name('active').click()
+    #     sleep(0.5)
+    #     screen_scroll()
+    #     sleep(1)
+    #     u'捕鱼'
+    #     dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[6]').click()
+    #     WebAndroidDriverWait(dr,10,poll_frequency=0.5).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div/div[1]')))
+    #     dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div/div[1]').click()
+    #     handel = dr.window_handles
+    #     dr.switch_to_window(handel[1])
+    #     check_error('AG捕鱼')
+    #     dr.close()
+    #     handel = dr.window_handles
+    #     dr.switch_to_window(handel[0])
+    #     dr.find_element_by_class_name('active').click()
+    #     sleep(0.5)
     u'退出登录'
     dr.find_element_by_class_name('wgic-user-b').click()
     size = dr.get_window_size()
