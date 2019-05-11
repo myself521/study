@@ -314,6 +314,32 @@ while True:
     dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[3]/div/div[2]/div/div[4]/div[4]/div[4]').click()
     WebAndroidDriverWait(dr,20,poll_frequency=1).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div[1]')))
     element_action('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[1]','//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[',']/div/div[2]/h3')
+    element_list = dr.find_elements(By.CLASS_NAME, 'scroll-container')
+    for element in element_list:
+        name = dr.find_elements_by_class_name("game_item")
+        sleep(0.5)
+        print(len(name))
+    for i in range(1, 16):
+        flak = 0
+        game_element = dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[' + str(i) + ']/div/div[1]')
+        name_element = dr.find_element_by_xpath('//*[@id="app"]/div[1]/div/div[2]/div/div[2]/div/div[' + str(i) + ']/div/div[2]/h3')
+        game_name = name_element.get_attribute('textContent')
+        game_element.click()
+        handel = dr.window_handles
+        dr.switch_to.window(handel[1])
+        new_flak = new_check_error(flak)
+        if new_flak == 1:
+            dr.close()
+            dr.switch_to_window(handel[0])
+            game_element.click()
+            handel = dr.window_handles
+            dr.switch_to.window(handel[1])
+            check_error(game_name)
+        dr.close()
+        dr.switch_to.window(handel[0])
+        sleep(1)
+    dr.find_element_by_class_name('active').click()
+
     sleep(0.5)
     screen_scroll()
     sleep(1)
